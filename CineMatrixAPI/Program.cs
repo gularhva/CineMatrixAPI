@@ -18,15 +18,14 @@ using Serilog.Core;
 using CineMatrixAPI.Application.Extensions;
 using FluentValidation.AspNetCore;
 using CineMatrixAPI.Application.Validations;
-using CineMatrixAPI.Application.Extensions;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers().AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<BookingCreateDTOValidator>());
-//builder.Services.AddControllers().ConfigureApiBehaviorOptions(opt => { opt.SuppressModelStateInvalidFilter = true; });
-//builder.Services.AddFluentValidationAutoValidation();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
