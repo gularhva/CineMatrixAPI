@@ -6,6 +6,8 @@ namespace CineMatrixAPI
     {
         public List<String>? Errors { get; private set; } = new List<String>();
 
+        //salam
+
         public ErrorDto(string error)
         {
             Errors.Add(error);
