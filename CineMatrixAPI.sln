@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CineMatrixAPI", "CineMatrixAPI\CineMatrixAPI.csproj", "{A2891FF6-F0CB-43FA-8BB0-5EF588C2F98B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{22E2CC85-0808-48C7-9325-197937415C81}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{2E900E7F-FFCC-4119-941F-EC10A56E8E4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CineMatrixAPI.Domain", "CineMatrixAPI.Domain\CineMatrixAPI.Domain.csproj", "{DEBE642E-D224-40FB-9A77-7B70DF5E33CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CineMatrixAPI.Application", "CineMatrixAPI.Application\CineMatrixAPI.Application.csproj", "{3E0CE9D2-D16C-4BC5-932F-3B3142E2D25C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CineMatrixAPI.Infrastructure", "CineMatrixAPI.Infrastructure\CineMatrixAPI.Infrastructure.csproj", "{91056F72-D756-4BEF-8FA1-5E617BBDDC79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CineMatrixAPI.Persistance", "CineMatrixAPI.Persistance\CineMatrixAPI.Persistance.csproj", "{6CBB9313-4CAA-45E3-8CD7-0336B1589803}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A2891FF6-F0CB-43FA-8BB0-5EF588C2F98B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2891FF6-F0CB-43FA-8BB0-5EF588C2F98B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2891FF6-F0CB-43FA-8BB0-5EF588C2F98B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2891FF6-F0CB-43FA-8BB0-5EF588C2F98B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEBE642E-D224-40FB-9A77-7B70DF5E33CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEBE642E-D224-40FB-9A77-7B70DF5E33CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEBE642E-D224-40FB-9A77-7B70DF5E33CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEBE642E-D224-40FB-9A77-7B70DF5E33CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E0CE9D2-D16C-4BC5-932F-3B3142E2D25C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E0CE9D2-D16C-4BC5-932F-3B3142E2D25C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E0CE9D2-D16C-4BC5-932F-3B3142E2D25C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E0CE9D2-D16C-4BC5-932F-3B3142E2D25C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91056F72-D756-4BEF-8FA1-5E617BBDDC79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91056F72-D756-4BEF-8FA1-5E617BBDDC79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91056F72-D756-4BEF-8FA1-5E617BBDDC79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91056F72-D756-4BEF-8FA1-5E617BBDDC79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CBB9313-4CAA-45E3-8CD7-0336B1589803}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CBB9313-4CAA-45E3-8CD7-0336B1589803}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CBB9313-4CAA-45E3-8CD7-0336B1589803}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CBB9313-4CAA-45E3-8CD7-0336B1589803}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DEBE642E-D224-40FB-9A77-7B70DF5E33CF} = {22E2CC85-0808-48C7-9325-197937415C81}
+		{3E0CE9D2-D16C-4BC5-932F-3B3142E2D25C} = {22E2CC85-0808-48C7-9325-197937415C81}
+		{91056F72-D756-4BEF-8FA1-5E617BBDDC79} = {2E900E7F-FFCC-4119-941F-EC10A56E8E4F}
+		{6CBB9313-4CAA-45E3-8CD7-0336B1589803} = {2E900E7F-FFCC-4119-941F-EC10A56E8E4F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E2FE322C-D559-413A-B2C2-321F22296B1E}
+	EndGlobalSection
+EndGlobal
