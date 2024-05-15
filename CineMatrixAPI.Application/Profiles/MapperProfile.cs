@@ -34,7 +34,6 @@ namespace CineMatrixAPI.Application.Profiles
             CreateMap<ReviewCreateDTO, Review>().ReverseMap();
             CreateMap<ReviewGetDTO, Review>().ReverseMap();
             CreateMap<ReviewUpdateDTO, Review>().ReverseMap();
-            CreateMap<BookingCreateDTO, Booking>().ReverseMap();
             CreateMap<BookingGetDTO, Booking>().ReverseMap();
         }
     }

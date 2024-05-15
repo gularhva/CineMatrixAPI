@@ -1,5 +1,6 @@
 ﻿using CineMatrixAPI.Application.DTOs.MovieDTOs;
 using CineMatrixAPI.Application.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,12 @@ namespace CineMatrixAPI.Application.Abstractions.Services
 {
     public interface IMovieService
     {
-        public Task<GenericResponseModel<List<MovieGetDTO>>> GetAllMovies();
-        public Task<GenericResponseModel<MovieGetDTO>> GetById(int id);
-        public Task<GenericResponseModel<List<MovieGetDTO>>> GetAllMoviesByBranchId(int branchId);
-        public Task<GenericResponseModel<List<MovieGetDTO>>> GetAllMoviesByShowTime(DateTime dateTime);
-        public Task<GenericResponseModel<MovieCreateUpdateDTO>> AddMovie(MovieCreateUpdateDTO model);
-        public Task<GenericResponseModel<bool>> UpdateMovie(int id,MovieCreateUpdateDTO model);
-        public Task<GenericResponseModel<bool>> DeleteMovie(int id);
-        //todo janra dile gore get eleme metodlarin yaz!!
+        public Task<IActionResult> GetAllMovies();
+        public Task<IActionResult> GetById(int id);
+        public Task<IActionResult> GetAllMoviesByBranchId(int branchId);
+        public Task<IActionResult> GetAllMoviesByShowTime(DateTime dateTime);
+        public Task<IActionResult> AddMovie(MovieCreateUpdateDTO model);
+        public Task<IActionResult> UpdateMovie(int id,MovieCreateUpdateDTO model);
+        public Task<IActionResult> DeleteMovie(int id);
     }
 }

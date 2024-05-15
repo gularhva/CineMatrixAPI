@@ -4,6 +4,7 @@ using CineMatrixAPI.Application.DTOs.UserDTOs;
 using CineMatrixAPI.Application.Models;
 using CineMatrixAPI.Domain.Entities.Identities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
             _userManager = userManager;
             _mapper = mapper;
         }
-        public async Task<GenericResponseModel<bool>> AssignRoleToUserAsync(string userId, string[] roles)
+        public async Task<IActionResult> AssignRoleToUserAsync(string userId, string[] roles)
         {
             GenericResponseModel<bool> responseModel = new GenericResponseModel<bool>()
             {
@@ -32,13 +33,13 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
             };
             if (userId == null || roles == null)
             {
-                return responseModel;
+                return new BadRequestObjectResult(responseModel);
             }
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 responseModel.StatusCode = 404;
-                return responseModel;
+                return new NotFoundObjectResult(responseModel);
             }
             var availableRoles = await _userManager.GetRolesAsync(user);
             await _userManager.RemoveFromRolesAsync(user, availableRoles);
@@ -47,14 +48,14 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
             var result = await _userManager.AddToRolesAsync(user, roles);
             if (!result.Succeeded)
             {
-                return responseModel;
+                return new BadRequestObjectResult(responseModel);
             }
             responseModel.Data = true;
             responseModel.StatusCode = 200;
-            return responseModel;
+            return new OkObjectResult(responseModel);
         }
 
-        public async Task<GenericResponseModel<CreateUserResponseDTO>> CreateAsync(UserCreateDTO userDTO)
+        public async Task<IActionResult> CreateAsync(UserCreateDTO userDTO)
         {
             GenericResponseModel<CreateUserResponseDTO> responseModel = new GenericResponseModel<CreateUserResponseDTO>()
             {
@@ -63,7 +64,7 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
             };
             if (userDTO == null)
             {
-                return responseModel;
+                return new BadRequestObjectResult(responseModel);
             }
             var id = Guid.NewGuid().ToString();
             IdentityResult result = await _userManager.CreateAsync(new()
@@ -73,7 +74,7 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
                 Email = userDTO.Email,
                 FirstName = userDTO.FirstName,
                 LastName = userDTO.LastName,
-                Birthday= userDTO.Birthday,
+                Birthday = userDTO.Birthday,
             }, userDTO.Password);
             responseModel.Data = new CreateUserResponseDTO { Succeeded = result.Succeeded };
             responseModel.StatusCode = result.Succeeded ? 200 : 400;
@@ -88,10 +89,10 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
                 user = await _userManager.FindByIdAsync(id);
             if (user != null)
                 await _userManager.AddToRoleAsync(user, "User");
-            return responseModel;
+            return new OkObjectResult(responseModel);
         }
 
-        public async Task<GenericResponseModel<bool>> DeleteUserAsync(string userIdOrName)
+        public async Task<IActionResult> DeleteUserAsync(string userIdOrName)
         {
             GenericResponseModel<bool> responseModel = new GenericResponseModel<bool>()
             {
@@ -100,7 +101,7 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
             };
             if (userIdOrName == null)
             {
-                return responseModel;
+                return new BadRequestObjectResult(responseModel);
             }
             var user = await _userManager.FindByIdAsync(userIdOrName);
             if (user == null)
@@ -110,19 +111,19 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
             if (user == null)
             {
                 responseModel.StatusCode = 404;
-                return responseModel;
+                return new NotFoundObjectResult(responseModel);
             }
             var result = await _userManager.DeleteAsync(user);
             if (!result.Succeeded)
             {
-                return responseModel;
+                return new BadRequestObjectResult(responseModel);
             }
             responseModel.StatusCode = 200;
             responseModel.Data = true;
-            return responseModel;
+            return new OkObjectResult(responseModel);
         }
 
-        public async Task<GenericResponseModel<List<UserGetDTO>>> GetAllUsersAsync()
+        public async Task<IActionResult> GetAllUsersAsync()
         {
             GenericResponseModel<List<UserGetDTO>> responseModel = new GenericResponseModel<List<UserGetDTO>>()
             {
@@ -132,15 +133,15 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
             var users = await _userManager.Users.ToListAsync();
             if (users.Count == 0)
             {
-                return responseModel;
+                return new NotFoundObjectResult(responseModel);
             }
             var user = _mapper.Map<List<UserGetDTO>>(users);
             responseModel.Data = user;
             responseModel.StatusCode = 200;
-            return responseModel;
+            return new OkObjectResult(responseModel);
         }
 
-        public async Task<GenericResponseModel<UserGetDTO>> GetById(string id)
+        public async Task<IActionResult> GetById(string id)
         {
             GenericResponseModel<UserGetDTO> responseModel = new GenericResponseModel<UserGetDTO>()
             {
@@ -149,20 +150,20 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
             };
             if (string.IsNullOrEmpty(id))
             {
-                return responseModel;
+                return new BadRequestObjectResult(responseModel);
             }
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
                 responseModel.StatusCode = 404;
-                return responseModel;
+                return new NotFoundObjectResult(responseModel);
             }
             responseModel.Data = _mapper.Map<UserGetDTO>(user);
             responseModel.StatusCode = 200;
-            return responseModel;
+            return new OkObjectResult(responseModel);
         }
 
-        public async Task<GenericResponseModel<string[]>> GetRolesToUserAsync(string userIdOrName)
+        public async Task<IActionResult> GetRolesToUserAsync(string userIdOrName)
         {
             GenericResponseModel<string[]> responseModel = new GenericResponseModel<string[]>()
             {
@@ -171,7 +172,7 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
             };
             if (string.IsNullOrEmpty(userIdOrName))
             {
-                return responseModel;
+                return new BadRequestObjectResult(responseModel);
             }
             var user = await _userManager.FindByIdAsync(userIdOrName);
             if (user == null)
@@ -179,13 +180,13 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
             if (user == null)
             {
                 responseModel.StatusCode = 404;
-                return responseModel;
+                return new NotFoundObjectResult(responseModel);
             }
             var roles = await _userManager.GetRolesAsync(user);
             string[] rolesArray = roles.ToArray();
             responseModel.Data = rolesArray;
             responseModel.StatusCode = 200;
-            return responseModel;
+            return new OkObjectResult(responseModel);
         }
 
         public async Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accessTokenDate)
@@ -199,7 +200,7 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
                 await _userManager.UpdateAsync(userToUpdate);
             }
         }
-        public async Task<GenericResponseModel<bool>> UpdateUserAsync(UserUpdateDTO userDTO)
+        public async Task<IActionResult> UpdateUserAsync(UserUpdateDTO userDTO)
         {
             GenericResponseModel<bool> responseModel = new GenericResponseModel<bool>()
             {
@@ -207,14 +208,14 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
                 StatusCode = 400,
             };
             if (userDTO == null)
-                return responseModel;
+                return new BadRequestObjectResult(responseModel);
             var user = await _userManager.FindByIdAsync(userDTO.Id);
             if (user == null)
                 user = await _userManager.FindByNameAsync(userDTO.Username);
             if (user == null)
             {
                 responseModel.StatusCode = 404;
-                return responseModel;
+                return new NotFoundObjectResult(responseModel);
             }
             //user.Id = userDTO.Id;
             //user.FirstName = userDTO.Firstname;
@@ -229,7 +230,7 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
                 responseModel.StatusCode = 200;
                 responseModel.Data = true;
             }
-            return responseModel;
+            return new OkObjectResult(responseModel);
         }
     }
 }

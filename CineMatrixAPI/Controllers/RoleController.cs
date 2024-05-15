@@ -1,4 +1,5 @@
 ﻿using CineMatrixAPI.Application.Abstractions.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,6 +7,7 @@ namespace CineMatrixAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
     public class RoleController : ControllerBase
     {
         private readonly IRoleService _roleService;
@@ -14,34 +16,29 @@ namespace CineMatrixAPI.Controllers
             _roleService = roleService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllRoles()
+        public async Task<IActionResult> GetAll()
         {
-            var response = await _roleService.GetAllRoles();
-            return StatusCode(response.StatusCode, response);
+            return await _roleService.GetAllRoles();
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetRoleById(string id)
+        public async Task<IActionResult> GetById(string id)
         {
-            var response = await _roleService.GetRoleById(id);
-            return StatusCode(response.StatusCode, response);
+            return await _roleService.GetRoleById(id);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateRole(string name)
+        public async Task<IActionResult> Create(string name)
         {
-            var response = await _roleService.CreateRole(name);
-            return StatusCode(response.StatusCode, response);
+            return await _roleService.CreateRole(name);
         }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRole(string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var response = await _roleService.DeleteRole(id);
-            return StatusCode(response.StatusCode, response);
+            return await _roleService.DeleteRole(id);
         }
         [HttpPut]
-        public async Task<IActionResult> UpdateRole(string id, string name)
+        public async Task<IActionResult> Update(string id, string name)
         {
-            var response = await _roleService.UpdateRole(id, name);
-            return StatusCode(response.StatusCode, response);
+            return await _roleService.UpdateRole(id, name);
         }
     }
 }

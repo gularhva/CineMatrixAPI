@@ -1,5 +1,6 @@
 ﻿using CineMatrixAPI.Application.Abstractions.Services;
 using CineMatrixAPI.Application.DTOs.BookingDTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,46 +16,41 @@ namespace CineMatrixAPI.Controllers
         {
             _bookingService = bookingService;
         }
+        [Authorize(AuthenticationSchemes ="Bearer",Roles ="Admin")]
         [HttpGet]
-        public async Task<IActionResult> GetAllBookings()
+        public async Task<IActionResult> GetAll()
         {
-            var data = await _bookingService.GetAllBookings();
-            return StatusCode(data.StatusCode, data);
+            return await _bookingService.GetAllBookings();
         }
-
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBookingById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var data = await _bookingService.GetById(id);
-            return StatusCode(data.StatusCode, data);
+            return await _bookingService.GetById(id);
         }
-
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,User")]
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetAllBookingsByUserId(string userId)
         {
-            var data = await _bookingService.GetAllBookingsByUserId(userId);
-            return StatusCode(data.StatusCode, data);
+            return await _bookingService.GetAllBookingsByUserId(userId);
         }
-
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpGet("{ticketId}")]
         public async Task<IActionResult> GetBookingByTicketId(int ticketId)
         {
-            var data = await _bookingService.GetBookingByTicketId(ticketId);
-            return StatusCode(data.StatusCode, data);
+            return await _bookingService.GetBookingByTicketId(ticketId);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> AddBooking(BookingCreateDTO dto)
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,User")]
+        [HttpPost("{ticketId}")]
+        public async Task<IActionResult> Create(int ticketId)
         {
-            var data = await _bookingService.AddBooking(dto);
-            return StatusCode(data.StatusCode, data);
+            return await _bookingService.AddBooking(ticketId);
         }
-
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,User")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBooking(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var data = await _bookingService.DeleteBooking(id);
-            return StatusCode(data.StatusCode, data);
+            return await _bookingService.DeleteBooking(id);
         }
     }
 }

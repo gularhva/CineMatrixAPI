@@ -1,6 +1,7 @@
 ﻿using CineMatrixAPI.Application.Abstractions.Services;
 using CineMatrixAPI.Application.DTOs.UserDTOs;
 using CineMatrixAPI.Application.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,47 +16,46 @@ namespace CineMatrixAPI.Controllers
         {
             _userService = userService;
         }
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> GetAllUsers()
+        public async Task<IActionResult> GetAll()
         {
-            var data = await _userService.GetAllUsersAsync();
-            return StatusCode(data.StatusCode, data);
+            return await _userService.GetAllUsersAsync();
         }
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserById(string id)
+        public async Task<IActionResult> GetById(string id)
         {
-            var data = await _userService.GetById(id);
-            return StatusCode(data.StatusCode, data);
+            return await _userService.GetById(id);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateUser(UserCreateDTO userDTO)
+        public async Task<IActionResult> Create(UserCreateDTO userDTO)
         {
-            var data = await _userService.CreateAsync(userDTO);
-            return StatusCode(data.StatusCode, data);
+            return await _userService.CreateAsync(userDTO);
         }
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,User")]
         [HttpPut]
-        public async Task<IActionResult> UpdateUser(UserUpdateDTO userDTO)
+        public async Task<IActionResult> Update(UserUpdateDTO userDTO)
         {
-            var data = await _userService.UpdateUserAsync(userDTO);
-            return StatusCode(data.StatusCode, data);
+            return await _userService.UpdateUserAsync(userDTO);
         }
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,User")]
         [HttpDelete("{userIdOrName}")]
-        public async Task<IActionResult> DeleteUser(string userIdOrName)
+        public async Task<IActionResult> Delete(string userIdOrName)
         {
-            var data = await _userService.DeleteUserAsync(userIdOrName);
-            return StatusCode(data.StatusCode, data);
+            return await _userService.DeleteUserAsync(userIdOrName);
         }
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpGet("{userIdOrName}")]
         public async Task<IActionResult> GetRolesToUser(string userIdOrName)
         {
-            var data = await _userService.GetRolesToUserAsync(userIdOrName);
-            return StatusCode(data.StatusCode, data);
+            return await _userService.GetRolesToUserAsync(userIdOrName);
         }
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpPost("{userId}")]
         public async Task<IActionResult> AssignRoleToUser(string userId, string[] roles)
         {
-            var data = await _userService.AssignRoleToUserAsync(userId, roles);
-            return StatusCode(data.StatusCode, data);
+            return await _userService.AssignRoleToUserAsync(userId, roles);
         }
 
     }

@@ -1,4 +1,5 @@
 ﻿using CineMatrixAPI.Application.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace CineMatrixAPI.Application.Abstractions.Services
 {
     public interface IRoleService
     {
-        Task<GenericResponseModel<object>> GetAllRoles();
-        Task<GenericResponseModel<object>> GetRoleById(string id);
-        Task<GenericResponseModel<bool>> CreateRole(string name);
-        Task<GenericResponseModel<bool>> DeleteRole(string id);
-        Task<GenericResponseModel<bool>> UpdateRole(string id, string name);
+        Task<IActionResult> GetAllRoles();
+        Task<IActionResult> GetRoleById(string id);
+        Task<IActionResult> CreateRole(string name);
+        Task<IActionResult> DeleteRole(string id);
+        Task<IActionResult> UpdateRole(string id, string name);
     }
 }

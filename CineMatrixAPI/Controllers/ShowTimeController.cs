@@ -3,6 +3,7 @@ using CineMatrixAPI.Application.DTOs.BranchDTOs;
 using CineMatrixAPI.Application.DTOs.ShowTimeDTOs;
 using CineMatrixAPI.Application.Models;
 using CineMatrixAPI.Persistance.Implementations.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,46 +19,45 @@ namespace CineMatrixAPI.Controllers
             _showTimeService = showTimeService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllShowTimes()
+        public async Task<IActionResult> GetAll()
         {
-            var data = await _showTimeService.GetAllShowTimes();
-            return StatusCode(data.StatusCode, data);
+            return await _showTimeService.GetAllShowTimes();
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetShowTimeById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var data = await _showTimeService.GetById(id);
-            return StatusCode(data.StatusCode, data);
+            return await _showTimeService.GetById(id);
         }
         [HttpGet("{branchId}")]
         public async Task<IActionResult> GetAllShowTimesByBranchId(int branchId)
         {
-            var data = await _showTimeService.GetAllShowTimesByBranchId(branchId);
-            return StatusCode(data.StatusCode, data);
+            return await _showTimeService.GetAllShowTimesByBranchId(branchId);
         }       
         [HttpGet("{movieId}")]
         public async Task<IActionResult> GetAllShowTimesByMovieId(int movieId)
         {
-            var data = await _showTimeService.GetAllShowTimesByMovieId(movieId);
-            return StatusCode(data.StatusCode, data);
+            return await _showTimeService.GetAllShowTimesByMovieId(movieId);
         }
+
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> AddShowTime(ShowTimeCreateDTO model)
+        public async Task<IActionResult> Create(ShowTimeCreateDTO model)
         {
-            var data = await _showTimeService.AddShowTime(model);
-            return StatusCode(data.StatusCode, data);
+            return await _showTimeService.AddShowTime(model);
         }
+
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateShowTime(int id, ShowTimeUpdateDTO model)
+        public async Task<IActionResult> Update(int id, ShowTimeUpdateDTO model)
         {
-            var data = await _showTimeService.UpdateShowTime(id, model);
-            return StatusCode(data.StatusCode, data);
-        } 
+            return await _showTimeService.UpdateShowTime(id, model);
+        }
+
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteShowTime(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var data = await _showTimeService.DeleteShowTime(id);
-            return StatusCode(data.StatusCode, data);
+            return await _showTimeService.DeleteShowTime(id);
         }
 
     }

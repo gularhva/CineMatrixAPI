@@ -3,6 +3,7 @@ using CineMatrixAPI.Application.DTOs.BranchDTOs;
 using CineMatrixAPI.Application.DTOs.TicketDTOs;
 using CineMatrixAPI.Application.Models;
 using CineMatrixAPI.Persistance.Implementations.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,40 +19,40 @@ namespace CineMatrixAPI.Controllers
             _ticketService = ticketService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllTickets()
+        public async Task<IActionResult> GetAll()
         {
-            var data = await _ticketService.GetAllTickets();
-            return StatusCode(data.StatusCode, data);
+            return await _ticketService.GetAllTickets();
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTicketById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var data = await _ticketService.GetById(id);
-            return StatusCode(data.StatusCode, data);
+            return await _ticketService.GetById(id);
         }
         [HttpGet("{showTimeId}")]
         public async Task<IActionResult> GetAllTicketsByShowTimeId(int showTimeId)
         {
-            var data = await _ticketService.GetAllTicketsByShowTimeId(showTimeId);
-            return StatusCode(data.StatusCode, data);
+            return await _ticketService.GetAllTicketsByShowTimeId(showTimeId);
         }
+
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> AddTicket(TicketCreateDTO model)
+        public async Task<IActionResult> Create(TicketCreateDTO model)
         {
-            var data = await _ticketService.AddTicket(model);
-            return StatusCode(data.StatusCode, data);
+            return await _ticketService.AddTicket(model);
         }
+
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTicket(int id, TicketUpdateDTO model)
+        public async Task<IActionResult> Update(int id, TicketUpdateDTO model)
         {
-            var data = await _ticketService.UpdateTicket(id, model);
-            return StatusCode(data.StatusCode, data);
+            return await _ticketService.UpdateTicket(id, model);
         }
+
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTicket(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var data = await _ticketService.DeleteTicket(id);
-            return StatusCode(data.StatusCode, data);
+            return await _ticketService.DeleteTicket(id);
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using CineMatrixAPI.Application.Abstractions.Services;
 using CineMatrixAPI.Application.DTOs.MovieDTOs;
-using CineMatrixAPI.Application.Models;
-using CineMatrixAPI.Persistance.Implementations.Services;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CineMatrixAPI.Controllers;
@@ -17,52 +15,48 @@ public class MovieController : ControllerBase
         _movieService = movieService;
     }
     [HttpGet]
-    public async Task<IActionResult> GetAllMovies()
+    public async Task<IActionResult> GetAll()
     {
-        var data = await _movieService.GetAllMovies();
-        return StatusCode(data.StatusCode, data);
+        return await _movieService.GetAllMovies();
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetMovieById(int id)
+    public async Task<IActionResult> GetById(int id)
     {
-        var data = await _movieService.GetById(id);
-        return StatusCode(data.StatusCode, data);
+        return await _movieService.GetById(id);
     }
 
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
     [HttpPost]
-    public async Task<IActionResult> AddMovie(MovieCreateUpdateDTO dto)
+    public async Task<IActionResult> Create(MovieCreateUpdateDTO dto)
     {
-        var data = await _movieService.AddMovie(dto);
-        return StatusCode(data.StatusCode, data);
+        return await _movieService.AddMovie(dto);
     }
 
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateMovie(int id, MovieCreateUpdateDTO dto)
+    public async Task<IActionResult> Update(int id, MovieCreateUpdateDTO dto)
     {
-        var data = await _movieService.UpdateMovie(id, dto);
-        return StatusCode(data.StatusCode, data);
+        return await _movieService.UpdateMovie(id, dto);
     }
 
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteMovie(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        var data = await _movieService.DeleteMovie(id);
-        return StatusCode(data.StatusCode, data);
+        return await _movieService.DeleteMovie(id);
     }
 
     [HttpGet("{branchId}")]
     public async Task<IActionResult> GetAllMoviesByBranchId(int branchId)
     {
-        var data = await _movieService.GetAllMoviesByBranchId(branchId);
-        return StatusCode(data.StatusCode, data);
+        return await _movieService.GetAllMoviesByBranchId(branchId);
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAllMoviesByShowTime(DateTime dateTime)
     {
-        var data = await _movieService.GetAllMoviesByShowTime(dateTime);
-        return StatusCode(data.StatusCode, data);
+        return await _movieService.GetAllMoviesByShowTime(dateTime);
     }
 }
 

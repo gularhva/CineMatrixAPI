@@ -19,6 +19,14 @@ using CineMatrixAPI.Application.Extensions;
 using FluentValidation.AspNetCore;
 using CineMatrixAPI.Application.Validations;
 using FluentValidation;
+using CineMatrixAPI.Application.Abstractions;
+using CineMatrixAPI.Persistance.Implementations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Security.Claims;
+using Microsoft.OpenApi.Models;
+using TokenHandler = CineMatrixAPI.Persistance.Implementations.TokenHandler;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,11 +34,74 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddValidatorsFromAssemblyContaining(typeof(BookingCreateDTOValidator));
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddValidatorsFromAssemblyContaining(typeof(BranchCreateUpdateDTOValidator));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new()
+    {
+        ValidateAudience = true,//tokunumuzu kim/hansi origin islede biler
+        ValidateIssuer = true, //tokunu kim palylayir
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true, //tokenin ozel keyi
+
+        ValidAudience = builder.Configuration["JWT:Audience"],
+
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
+
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
+
+        //token omru qeder islemesi ucun
+        LifetimeValidator = (notBefore, expires, securityToken, validationParameters) => expires != null ? expires > DateTime.UtcNow : false,
+
+        NameClaimType = ClaimTypes.Name,
+        RoleClaimType = ClaimTypes.Role
+    };
+});
+builder.Services.AddSwaggerGen(swagger =>
+{
+    //This is to generate the Default UI of Swagger Documentation  
+    swagger.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "CineMatrix API",
+        Description = "ASP.NET Core 6 Web API"
+    });
+    // To Enable authorization using Swagger (JWT)  
+    swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "JWT Authorization header using the Bearer scheme."
+    });
+    swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
+
+                    }
+                });
+});
 builder.Services.UseCustomValidationResponse();
 var config = builder.Configuration.GetConnectionString("ApplicationDbContext");
 builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(config));
@@ -44,6 +115,9 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<ITokenHandler, TokenHandler>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped<IBranchRepository, BranchRepository>();
 builder.Services.AddScoped<IShowTimeRepository, ShowTimeRepository>();
@@ -79,6 +153,7 @@ app.UseHttpsRedirection();
 app.ConfigureExtensionHandler();
 app.UseSerilogRequestLogging();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -1,5 +1,6 @@
 ﻿using CineMatrixAPI.Application.Abstractions.Services;
 using CineMatrixAPI.Application.DTOs.ReviewDTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,46 +16,48 @@ namespace CineMatrixAPI.Controllers
             _reviewService = reviewService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllReviews()
+        public async Task<IActionResult> GetAll()
         {
-            var data = await _reviewService.GetAllReviews();
-            return StatusCode(data.StatusCode, data);
+            return await _reviewService.GetAllReviews();
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetReviewById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var data = await _reviewService.GetReviewById(id);
-            return StatusCode(data.StatusCode, data);
+            return await _reviewService.GetReviewById(id);
         }
+
         [HttpGet("{movieId}")]
         public async Task<IActionResult> GetAllReviewsByMovieId(int movieId)
         {
-            var data = await _reviewService.GetAllReviewsByMovieId(movieId);
-            return StatusCode(data.StatusCode, data);
+            return await _reviewService.GetAllReviewsByMovieId(movieId);
         }
+
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,User")]
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetAllReviewsByUserId(string userId)
         {
-            var data = await _reviewService.GetAllReviewsByUserId(userId);
-            return StatusCode(data.StatusCode, data);
+            return await _reviewService.GetAllReviewsByUserId(userId);
         }
+
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,User")]
         [HttpPost]
-        public async Task<IActionResult> AddReview(ReviewCreateDTO dto)
+        public async Task<IActionResult> Create(ReviewCreateDTO dto)
         {
-            var data = await _reviewService.CreateReview(dto);
-            return StatusCode(data.StatusCode, data);
+            return await _reviewService.CreateReview(dto);
         }
+
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,User")]
         [HttpPut]
-        public async Task<IActionResult> UpdateReview(ReviewUpdateDTO dto)
+        public async Task<IActionResult> Update(ReviewUpdateDTO dto)
         {
-            var data = await _reviewService.UpdateReview(dto);
-            return StatusCode(data.StatusCode, data);
+            return await _reviewService.UpdateReview(dto);
         }
+
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,User")]
         [HttpDelete]
-        public async Task<IActionResult> DeleteReview(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var data = await _reviewService.DeleteReview(id);
-            return StatusCode(data.StatusCode, data);
+            return await _reviewService.DeleteReview(id);
         }
     }
 }

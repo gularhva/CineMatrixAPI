@@ -3,6 +3,7 @@ using CineMatrixAPI.Application.DTOs.BranchDTOs;
 using CineMatrixAPI.Application.DTOs.MovieDTOs;
 using CineMatrixAPI.Application.Models;
 using CineMatrixAPI.Persistance.Implementations.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,38 +19,36 @@ namespace CineMatrixAPI.Controllers
             _branchService = branchService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllBranches()
+        public async Task<IActionResult> GetAll()
         {
-            var data = await _branchService.GetAllBranches();
-            return StatusCode(data.StatusCode, data);
+            return await _branchService.GetAllBranches();
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBranchById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var data = await _branchService.GetBranchById(id);
-            return StatusCode(data.StatusCode, data);
+            return await _branchService.GetBranchById(id);
         }
 
+        [Authorize(AuthenticationSchemes ="Bearer",Roles ="Admin")]
         [HttpPost]
-        public async Task<IActionResult> AddBranch(BranchCreateUpdateDTO dto)
+        public async Task<IActionResult> Create(BranchCreateUpdateDTO dto)
         {
-            var data = await _branchService.CreateBranch(dto);
-            return StatusCode(data.StatusCode, data);
+            return await _branchService.CreateBranch(dto);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBranch(int id, BranchCreateUpdateDTO dto)
+        public async Task<IActionResult> Update(int id, BranchCreateUpdateDTO dto)
         {
-            var data = await _branchService.UpdateBranch(id, dto);
-            return StatusCode(data.StatusCode, data);
+            return await _branchService.UpdateBranch(id, dto);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBranch(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var data = await _branchService.DeleteBranch(id);
-            return StatusCode(data.StatusCode, data);
+            return await _branchService.DeleteBranch(id);
         }
     }
 }

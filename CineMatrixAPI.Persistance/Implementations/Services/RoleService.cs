@@ -2,6 +2,7 @@
 using CineMatrixAPI.Application.Models;
 using CineMatrixAPI.Domain.Entities.Identities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,87 +19,128 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
         {
             _roleManager = roleManager;
         }
-        public async Task<GenericResponseModel<bool>> CreateRole(string name)
+        public async Task<IActionResult> CreateRole(string name)
         {
             GenericResponseModel<bool> response = new GenericResponseModel<bool>() { Data = false, StatusCode = 400 };
+
             if (name == null)
             {
-                return response;
+                return new BadRequestObjectResult(response);
             }
+
             AppRole role = new AppRole();
             role.Name = name;
             role.Id = Guid.NewGuid().ToString();
+
             var result = await _roleManager.CreateAsync(role);
+
             if (!result.Succeeded)
             {
-                return response;
+                return new ObjectResult(response) { StatusCode = 500 };
             }
+
             response.StatusCode = 200;
             response.Data = true;
-            return response;
+
+            return new OkObjectResult(response);
         }
 
-        public async Task<GenericResponseModel<bool>> DeleteRole(string id)
+        public async Task<IActionResult> DeleteRole(string id)
         {
             GenericResponseModel<bool> response = new GenericResponseModel<bool>() { Data = false, StatusCode = 400 };
+
             if (id == null)
             {
-                return response;
+                return new BadRequestObjectResult(response);
             }
+
             var role = await _roleManager.FindByIdAsync(id);
+
             if (role == null)
             {
-                return response;
+                return new ObjectResult(response) { StatusCode = 404 };
             }
+
             var result = await _roleManager.DeleteAsync(role);
+
             if (!result.Succeeded)
             {
-                return response;
+                return new ObjectResult(response) { StatusCode = 500 };
             }
+
             response.StatusCode = 200;
             response.Data = true;
-            return response;
+
+            return new OkObjectResult(response);
         }
 
-        public async Task<GenericResponseModel<object>> GetAllRoles()
+        public async Task<IActionResult> GetAllRoles()
         {
             GenericResponseModel<object> response = new GenericResponseModel<object>() { Data = null, StatusCode = 400 };
+
             var roles = await _roleManager.Roles.ToListAsync();
-            if (roles == null)
+
+            if (roles == null || roles.Count == 0)
             {
-                return response;
+                return new ObjectResult(response) { StatusCode = 404 };
             }
+
             response.StatusCode = 200;
             response.Data = roles;
-            return response;
+
+            return new OkObjectResult(response);
         }
 
-        public async Task<GenericResponseModel<object>> GetRoleById(string id)
+        public async Task<IActionResult> GetRoleById(string id)
         {
             GenericResponseModel<object> response = new GenericResponseModel<object>() { Data = null, StatusCode = 400 };
+
             if (id == null)
-                return response;
+            {
+                return new BadRequestObjectResult(response);
+            }
+
             var role = await _roleManager.FindByIdAsync(id);
+
             if (role == null)
-                return response;
+            {
+                return new ObjectResult(response) { StatusCode = 404 };
+            }
+
             response.StatusCode = 200;
             response.Data = role;
-            return response;
+
+            return new OkObjectResult(response);
         }
 
-        public async Task<GenericResponseModel<bool>> UpdateRole(string id, string name)
+        public async Task<IActionResult> UpdateRole(string id, string name)
         {
             GenericResponseModel<bool> response = new GenericResponseModel<bool>() { Data = false, StatusCode = 400 };
+
+            if (id == null || name == null)
+            {
+                return new BadRequestObjectResult(response);
+            }
+
             var role = await _roleManager.FindByIdAsync(id);
+
             if (role == null)
-                return response;
+            {
+                return new ObjectResult(response) { StatusCode = 404 };
+            }
+
             role.Name = name;
             var result = await _roleManager.UpdateAsync(role);
+
             if (!result.Succeeded)
-                return response;
+            {
+                return new ObjectResult(response) { StatusCode = 500 };
+            }
+
             response.StatusCode = 200;
             response.Data = true;
-            return response;
+
+            return new OkObjectResult(response);
         }
     }
 }
