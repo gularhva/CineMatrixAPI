@@ -200,7 +200,7 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
                 await _userManager.UpdateAsync(userToUpdate);
             }
         }
-        public async Task<IActionResult> UpdateUserAsync(UserUpdateDTO userDTO)
+        public async Task<IActionResult> UpdateUserAsync(string id,UserUpdateDTO userDTO)
         {
             GenericResponseModel<bool> responseModel = new GenericResponseModel<bool>()
             {
@@ -209,7 +209,7 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
             };
             if (userDTO == null)
                 return new BadRequestObjectResult(responseModel);
-            var user = await _userManager.FindByIdAsync(userDTO.Id);
+            var user = await _userManager.FindByIdAsync(id);
             if (user == null)
                 user = await _userManager.FindByNameAsync(userDTO.Username);
             if (user == null)

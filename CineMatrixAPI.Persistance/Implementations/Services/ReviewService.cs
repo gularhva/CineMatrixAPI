@@ -34,7 +34,7 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
                 return new BadRequestObjectResult(responseModel);
             }
             var userId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if(userId == null)
+            if (userId == null)
             {
                 responseModel.StatusCode = 404;
                 return new NotFoundObjectResult(responseModel);
@@ -42,9 +42,9 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
             Review review = new Review();
             review.UserId = userId;
             review.MovieId = dto.MovieId;
-            review.CreatedAt=DateTime.Now;
-            review.ReviewText= dto.ReviewText;
-            review.Point= dto.Point;
+            review.CreatedAt = DateTime.Now;
+            review.ReviewText = dto.ReviewText;
+            review.Point = dto.Point;
             await _reviewRepo.Add(review);
             var affectedRows = await _unitOfWork.SaveAsync();
 
@@ -197,7 +197,7 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
             return new OkObjectResult(responseModel);
         }
 
-        public async Task<IActionResult> UpdateReview(ReviewUpdateDTO model)
+        public async Task<IActionResult> UpdateReview(int id, ReviewUpdateDTO model)
         {
             GenericResponseModel<bool> responseModel = new GenericResponseModel<bool>()
             {
@@ -210,7 +210,7 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
                 return new BadRequestObjectResult(responseModel);
             }
 
-            var review = await _reviewRepo.GetById(model.Id);
+            var review = await _reviewRepo.GetById(id);
 
             if (review == null)
             {

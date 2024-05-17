@@ -34,10 +34,10 @@ namespace CineMatrixAPI.Controllers
             return await _userService.CreateAsync(userDTO);
         }
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,User")]
-        [HttpPut]
-        public async Task<IActionResult> Update(UserUpdateDTO userDTO)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(string id, UserUpdateDTO userDTO)
         {
-            return await _userService.UpdateUserAsync(userDTO);
+            return await _userService.UpdateUserAsync(id,userDTO);
         }
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,User")]
         [HttpDelete("{userIdOrName}")]

@@ -12,8 +12,6 @@ namespace CineMatrixAPI.Application.Validations.UserValidators
     {
         public UserUpdateDTOValidator()
         {
-            RuleFor(dto => dto.Id)
-                .NotEmpty().WithMessage("User ID is required.");
 
             RuleFor(dto => dto.Firstname)
                 .NotEmpty().WithMessage("First name is required.")

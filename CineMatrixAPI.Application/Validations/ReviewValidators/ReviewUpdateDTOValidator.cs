@@ -12,9 +12,6 @@ namespace CineMatrixAPI.Application.Validations.ReviewValidators
     {
         public ReviewUpdateDTOValidator()
         {
-            RuleFor(dto => dto.Id)
-            .NotEmpty().WithMessage("Review ID cannot be empty.")
-            .GreaterThan(0).WithMessage("Review ID must be greater than 0.");
 
             RuleFor(dto => dto.ReviewText)
                 .NotEmpty().WithMessage("Review text cannot be empty.");

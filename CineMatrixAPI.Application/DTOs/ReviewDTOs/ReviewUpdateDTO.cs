@@ -8,7 +8,6 @@ namespace CineMatrixAPI.Application.DTOs.ReviewDTOs
 {
     public class ReviewUpdateDTO
     {
-        public int Id { get; set; }
         public string ReviewText { get; set; }
         public int Point { get; set; }
     }

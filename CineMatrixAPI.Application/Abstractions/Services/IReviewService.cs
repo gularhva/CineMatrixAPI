@@ -18,6 +18,6 @@ namespace CineMatrixAPI.Application.Abstractions.Services
         public Task<IActionResult> GetAllReviewsByMovieId(int movieId);
         public Task<IActionResult> CreateReview(ReviewCreateDTO dto);
         public Task<IActionResult> DeleteReview(int id);
-        public Task<IActionResult> UpdateReview(ReviewUpdateDTO model);
+        public Task<IActionResult> UpdateReview(int id, ReviewUpdateDTO model);
     }
 }

@@ -15,7 +15,7 @@ namespace CineMatrixAPI.Application.Abstractions.Services
         public Task<IActionResult> GetAllUsersAsync();
         public Task<IActionResult> GetById(string id);
         public Task<IActionResult> CreateAsync(UserCreateDTO userDTO);
-        public Task<IActionResult> UpdateUserAsync(UserUpdateDTO userDTO);
+        public Task<IActionResult> UpdateUserAsync(string id,UserUpdateDTO userDTO);
         public Task<IActionResult> DeleteUserAsync(string userIdOrName);
         public Task<IActionResult> GetRolesToUserAsync(string userIdOrName);
         public Task<IActionResult> AssignRoleToUserAsync(string userId, string[] roles);

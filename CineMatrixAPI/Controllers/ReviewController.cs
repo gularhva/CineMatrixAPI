@@ -47,10 +47,10 @@ namespace CineMatrixAPI.Controllers
         }
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,User")]
-        [HttpPut]
-        public async Task<IActionResult> Update(ReviewUpdateDTO dto)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id,ReviewUpdateDTO dto)
         {
-            return await _reviewService.UpdateReview(dto);
+            return await _reviewService.UpdateReview(id,dto);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,User")]

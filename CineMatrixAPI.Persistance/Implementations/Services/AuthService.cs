@@ -127,7 +127,7 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
                 StatusCode = 400
             };
 
-            var userName = _httpContextAccessor.HttpContext.User.Identity?.Name;
+            var userName = _httpContextAccessor.HttpContext?.User.Identity?.Name;
             if (string.IsNullOrEmpty(userName))
             {
                 return new BadRequestObjectResult(response);
@@ -135,7 +135,7 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
             var user = await _userManager.FindByNameAsync(userName);
             if (user == null)
             {
-                response.StatusCode = 404; // Not found
+                response.StatusCode = 404; 
                 return new NotFoundObjectResult(response);
             }
             user.RefreshToken = null;
