@@ -27,9 +27,9 @@ namespace CineMatrixAPI.Controllers
         }
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,User")]
         [HttpPost]
-        public async Task<IActionResult> ChangePassword(string email, string oldPassword, string newPassword)
+        public async Task<IActionResult> ChangePassword(string oldPassword, string newPassword)
         {
-            return await _authService.ChangePasswordAsync(email, oldPassword, newPassword);
+            return await _authService.ChangePasswordAsync(oldPassword, newPassword);
         }
         [Authorize(AuthenticationSchemes ="Bearer",Roles = "User,Admin")]
         [HttpPut]

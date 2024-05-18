@@ -89,6 +89,7 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
                 user = await _userManager.FindByIdAsync(id);
             if (user != null)
                 await _userManager.AddToRoleAsync(user, "User");
+            responseModel.Data.Message = "User created succefully!";
             return new OkObjectResult(responseModel);
         }
 

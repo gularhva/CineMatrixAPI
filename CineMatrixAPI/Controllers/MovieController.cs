@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CineMatrixAPI.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class MovieController : ControllerBase
 {
@@ -47,13 +47,13 @@ public class MovieController : ControllerBase
         return await _movieService.DeleteMovie(id);
     }
 
-    [HttpGet("{branchId}")]
+    [HttpGet("[action]/{branchId}")]
     public async Task<IActionResult> GetAllMoviesByBranchId(int branchId)
     {
         return await _movieService.GetAllMoviesByBranchId(branchId);
     }
 
-    [HttpGet]
+    [HttpGet("[action]")]
     public async Task<IActionResult> GetAllMoviesByShowTime(DateTime dateTime)
     {
         return await _movieService.GetAllMoviesByShowTime(dateTime);

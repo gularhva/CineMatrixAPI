@@ -30,16 +30,17 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
             _userService = userService;
             _httpContextAccessor = httpContextAccessor;
         }
-        public async Task<IActionResult> ChangePasswordAsync(string email, string oldPassword, string newPassword)
+        public async Task<IActionResult> ChangePasswordAsync(string oldPassword, string newPassword)
         {
             GenericResponseModel<bool> response = new()
             {
                 Data = false,
                 StatusCode = 400
             };
-            if (string.IsNullOrEmpty(email) && string.IsNullOrEmpty(oldPassword) && string.IsNullOrEmpty(newPassword))
+            if (string.IsNullOrEmpty(oldPassword) && string.IsNullOrEmpty(newPassword))
                 return new BadRequestObjectResult(response);
-            var user = await _userManager.FindByEmailAsync(email);
+            var userName = _httpContextAccessor.HttpContext?.User?.Identity?.Name;
+            var user = await _userManager.FindByNameAsync(userName);
             if (user == null)
             {
                 response.StatusCode = 404;
@@ -100,7 +101,7 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
                 return new BadRequestObjectResult(response);
             }
             var user = await _userManager.Users.FirstOrDefaultAsync(x => x.RefreshToken == refreshToken);
-            if (user == null && user.RefreshTokenEndTime <= DateTime.UtcNow)
+            if (user == null && user?.RefreshTokenEndTime <= DateTime.UtcNow)
             {
                 response.StatusCode = 401;
                 return new UnauthorizedObjectResult(response);

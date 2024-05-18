@@ -10,7 +10,7 @@ namespace CineMatrixAPI.Application.DTOs.BookingDTOs
     public class BookingGetDTO
     {
         public int Id { get; set; }
-        public string UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
         public int TicketId { get; set; }
         public DateTime BookingDateTime { get; set; }
     }

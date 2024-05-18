@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CineMatrixAPI.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -46,13 +46,13 @@ namespace CineMatrixAPI.Controllers
             return await _userService.DeleteUserAsync(userIdOrName);
         }
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
-        [HttpGet("{userIdOrName}")]
+        [HttpGet("[action]/{userIdOrName}")]
         public async Task<IActionResult> GetRolesOfUser(string userIdOrName)
         {
             return await _userService.GetRolesToUserAsync(userIdOrName);
         }
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
-        [HttpPost("{userId}")]
+        [HttpPost("[action]/{userId}")]
         public async Task<IActionResult> AssignRolesToUser(string userId, string[] roles)
         {
             return await _userService.AssignRoleToUserAsync(userId, roles);

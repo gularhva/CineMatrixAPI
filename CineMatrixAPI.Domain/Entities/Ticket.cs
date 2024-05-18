@@ -10,7 +10,7 @@ namespace CineMatrixAPI.Entities
         public int Price { get; set; }
         public bool IsAvailable { get; set; }
         public int ShowTimeId { get; set; }
-        public virtual ShowTime ShowTime { get; set; }
-        public virtual Booking Booking { get; set; }
+        public virtual ShowTime? ShowTime { get; set; }
+        public virtual Booking? Booking { get; set; }
     }
 }

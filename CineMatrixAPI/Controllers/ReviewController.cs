@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CineMatrixAPI.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ReviewController : ControllerBase
     {
@@ -26,14 +26,14 @@ namespace CineMatrixAPI.Controllers
             return await _reviewService.GetReviewById(id);
         }
 
-        [HttpGet("{movieId}")]
+        [HttpGet("[action]/{movieId}")]
         public async Task<IActionResult> GetAllReviewsByMovieId(int movieId)
         {
             return await _reviewService.GetAllReviewsByMovieId(movieId);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,User")]
-        [HttpGet("{userId}")]
+        [HttpGet("[action]/{userId}")]
         public async Task<IActionResult> GetAllReviewsByUserId(string userId)
         {
             return await _reviewService.GetAllReviewsByUserId(userId);

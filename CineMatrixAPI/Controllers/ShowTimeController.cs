@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CineMatrixAPI.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ShowTimeController : ControllerBase
     {
@@ -28,12 +28,12 @@ namespace CineMatrixAPI.Controllers
         {
             return await _showTimeService.GetById(id);
         }
-        [HttpGet("{branchId}")]
+        [HttpGet("[action]/{branchId}")]
         public async Task<IActionResult> GetAllShowTimesByBranchId(int branchId)
         {
             return await _showTimeService.GetAllShowTimesByBranchId(branchId);
         }       
-        [HttpGet("{movieId}")]
+        [HttpGet("[action]/{movieId}")]
         public async Task<IActionResult> GetAllShowTimesByMovieId(int movieId)
         {
             return await _showTimeService.GetAllShowTimesByMovieId(movieId);

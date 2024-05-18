@@ -8,10 +8,10 @@ namespace CineMatrixAPI.Application.DTOs.UserDTOs
 {
     public class UserUpdateDTO
     {
-        public string Firstname { get; set; }
-        public string LastName { get; set; }
+        public string Firstname { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
         public DateTime Birthday { get; set; }
-        public string Email { get; set; }
-        public string Username { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string Username { get; set; } = string.Empty;
     }
 }

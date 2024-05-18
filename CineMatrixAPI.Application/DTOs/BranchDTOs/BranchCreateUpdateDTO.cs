@@ -8,8 +8,8 @@ namespace CineMatrixAPI.Application.DTOs.BranchDTOs
 {
     public class BranchCreateUpdateDTO
     {
-        public string Name { get; set; }
-        public string Location { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Location { get; set; } = string.Empty;
 
     }
 }

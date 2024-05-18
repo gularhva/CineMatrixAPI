@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CineMatrixAPI.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class BookingController : ControllerBase
     {
@@ -29,19 +29,19 @@ namespace CineMatrixAPI.Controllers
             return await _bookingService.GetById(id);
         }
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,User")]
-        [HttpGet("{userId}")]
+        [HttpGet("[action]/{userId}")]
         public async Task<IActionResult> GetAllBookingsByUserId(string userId)
         {
             return await _bookingService.GetAllBookingsByUserId(userId);
         }
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
-        [HttpGet("{ticketId}")]
+        [HttpGet("[action]/{ticketId}")]
         public async Task<IActionResult> GetBookingByTicketId(int ticketId)
         {
             return await _bookingService.GetBookingByTicketId(ticketId);
         }
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin,User")]
-        [HttpPost("{ticketId}")]
+        [HttpPost]
         public async Task<IActionResult> Create(int ticketId)
         {
             return await _bookingService.AddBooking(ticketId);

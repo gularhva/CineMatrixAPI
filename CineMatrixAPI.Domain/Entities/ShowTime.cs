@@ -12,9 +12,9 @@ namespace CineMatrixAPI.Domain.Entities
     {
         public int MovieId { get; set; }
         public int BranchId { get; set; }
-        public virtual Movie Movie { get; set; }
-        public virtual Branch Branch { get; set; }
+        public virtual Movie? Movie { get; set; }
+        public virtual Branch? Branch { get; set; }
         public DateTime DateTime { get; set; }
-        public ICollection<Ticket> Tickets { get; set; }
+        public ICollection<Ticket>? Tickets { get; set; }
     }
 }
