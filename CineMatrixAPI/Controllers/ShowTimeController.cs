@@ -41,14 +41,14 @@ namespace CineMatrixAPI.Controllers
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> Create(ShowTimeCreateDTO model)
+        public async Task<IActionResult> Create(ShowTimeCreateUpdateDTO model)
         {
             return await _showTimeService.AddShowTime(model);
         }
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, ShowTimeUpdateDTO model)
+        public async Task<IActionResult> Update(int id, ShowTimeCreateUpdateDTO model)
         {
             return await _showTimeService.UpdateShowTime(id, model);
         }

@@ -47,13 +47,13 @@ namespace CineMatrixAPI.Controllers
         }
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpGet("{userIdOrName}")]
-        public async Task<IActionResult> GetRolesToUser(string userIdOrName)
+        public async Task<IActionResult> GetRolesOfUser(string userIdOrName)
         {
             return await _userService.GetRolesToUserAsync(userIdOrName);
         }
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpPost("{userId}")]
-        public async Task<IActionResult> AssignRoleToUser(string userId, string[] roles)
+        public async Task<IActionResult> AssignRolesToUser(string userId, string[] roles)
         {
             return await _userService.AssignRoleToUserAsync(userId, roles);
         }

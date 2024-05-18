@@ -16,8 +16,8 @@ namespace CineMatrixAPI.Application.Abstractions.Services
         public Task<IActionResult> GetById(int id);
         public Task<IActionResult> GetAllShowTimesByMovieId(int movieId);
         public Task<IActionResult> GetAllShowTimesByBranchId(int branchId);
-        public Task<IActionResult> AddShowTime(ShowTimeCreateDTO model);
-        public Task<IActionResult> UpdateShowTime(int id, ShowTimeUpdateDTO model);
+        public Task<IActionResult> AddShowTime(ShowTimeCreateUpdateDTO model);
+        public Task<IActionResult> UpdateShowTime(int id, ShowTimeCreateUpdateDTO model);
         public Task<IActionResult> DeleteShowTime(int id);
     }
 }

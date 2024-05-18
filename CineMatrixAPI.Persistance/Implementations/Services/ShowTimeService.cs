@@ -30,9 +30,9 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> AddShowTime(ShowTimeCreateDTO model)
+        public async Task<IActionResult> AddShowTime(ShowTimeCreateUpdateDTO model)
         {
-            GenericResponseModel<ShowTimeCreateDTO> responseModel = new GenericResponseModel<ShowTimeCreateDTO>()
+            GenericResponseModel<ShowTimeCreateUpdateDTO> responseModel = new GenericResponseModel<ShowTimeCreateUpdateDTO>()
             {
                 Data = null,
                 StatusCode = 400
@@ -101,7 +101,7 @@ namespace CineMatrixAPI.Persistance.Implementations.Services
             return new OkObjectResult(responseModel);
         }
 
-        public async Task<IActionResult> UpdateShowTime(int id, ShowTimeUpdateDTO model)
+        public async Task<IActionResult> UpdateShowTime(int id, ShowTimeCreateUpdateDTO model)
         {
             GenericResponseModel<bool> responseModel = new GenericResponseModel<bool>()
             {

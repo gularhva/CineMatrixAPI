@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace CineMatrixAPI.Application.Validations.ShowTimeValidators
 {
-    public class ShowTimeCreateDTOValidator : AbstractValidator<ShowTimeCreateDTO>
+    public class ShowTimeCreateUpdateDTOValidator : AbstractValidator<ShowTimeCreateUpdateDTO>
     {
-        public ShowTimeCreateDTOValidator()
+        public ShowTimeCreateUpdateDTOValidator()
         {
             RuleFor(dto => dto.MovieId)
                 .NotEmpty().WithMessage("Movie ID is required.")
